@@ -120,9 +120,12 @@ class AppState extends ChangeNotifier {
   }
 
   Future<bool> loadPrefs() async {
-    language = (await getDefaultLanguage())!;
-    return true;
+  final savedLanguage = await getDefaultLanguage();
+  if (savedLanguage != null && savedLanguage.isNotEmpty) {
+    language = savedLanguage;
   }
+  return true;
+}
 
   Future<void> loadLanguageData() async {
     String dataString = await loadLanguageDataFromDisk();
