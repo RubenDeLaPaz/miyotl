@@ -100,12 +100,13 @@ class AppState extends ChangeNotifier {
   }
 
   Future<void> init() async {
-    loading = true;
-    notifyListeners();
-    await loadLanguageData();
-    loading = false;
-    notifyListeners();
-  }
+  loading = true;
+  notifyListeners();
+  await loadPrefs();
+  await loadLanguageData();
+  loading = false;
+  notifyListeners();
+}
 
   void changeLanguage(String other) {
     language = other;
