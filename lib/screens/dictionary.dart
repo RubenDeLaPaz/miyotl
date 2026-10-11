@@ -70,26 +70,35 @@ class DictionaryPage extends StatelessWidget {
           ),
         ),
         Consumer<AppState>(
-          builder: (context, state, child) => Expanded(
-            child: state.loading
-                ? const Center(
-                    child: CircularProgressIndicator(),
-                  )
-                : WordList(
-                    itemCount: state.dictionary!.entries.length,
-                    itemBuilder: (context, index) {
-                      return buildListTile(
-                        entry: state.dictionary!.entries[index],
-                        mode: state.lookupMode,
-                        context: context,
-                      );
-                    }),
-          ),
-        ),
-      ],
+  builder: (context, state, child) {
+    final dictionary = state.dictionary;
+
+    if (state.loading) {
+      return const Center(
+        child: CircularProgressIndicator(),
+      );
+    }
+
+    if (dictionary == null) {
+      return const Center(
+        child: Text('No se pudo cargar el diccionario'),
+      );
+    }
+
+    return Expanded(
+      child: WordList(
+        itemCount: dictionary.entries.length,
+        itemBuilder: (context, index) {
+          return buildListTile(
+            entry: dictionary.entries[index],
+            mode: state.lookupMode,
+            context: context,
+          );
+        },
+      ),
     );
-  }
-}
+  },
+),
 
 class WordList extends StatelessWidget {
   final int itemCount;
